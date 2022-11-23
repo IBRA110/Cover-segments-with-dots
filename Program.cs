@@ -1,4 +1,4 @@
-﻿
+﻿using Segments;
 
 namespace Program
 {
@@ -10,41 +10,36 @@ namespace Program
             
             Segment[] arr = new Segment[n];
             
-            for (int i = 0; i < arr.GetLength(0); i++)
+            WriteDotsAndCountOfDots(arr, n);
+            
+        }
+        
+        public static void WriteDotsAndCountOfDots(Segment[] arr, int n) {
+
+            for (int i = 0; i < n; i++)
             {
                 arr[i] = new Segment(Console.ReadLine().Split());
             }
-            
+
             Array.Sort(arr);
-            Array.Reverse(arr);
-            Console.WriteLine();
-            Console.WriteLine();
-            for (int i = 0; i < arr.GetLength(0); i++)
+            List<int> answers = new List<int>();
+            
+            
+            int currentPoint = -1;
+            for (int i = 0; i < n; i++)
             {
-                Console.Write(arr[i].left.ToString() + " ");
-                Console.Write(arr[i].right.ToString() + " ");
-                Console.WriteLine();
+                if (currentPoint < arr[i].left)
+                {
+                    currentPoint = arr[i].right;
+                    answers.Add(currentPoint);
+                }
             }
-        }
-        struct Segment: IComparable<Segment>
-        {
-            public int left;
-            public int right;
+            
+            Console.WriteLine(answers.Count);
 
-            public Segment(string[] str)
+            foreach (int point in answers)
             {
-                left = int.Parse(str[0]);
-                right = int.Parse(str[1]);
-            }
-
-            public int CompareTo(Segment other)
-            {
-                return right.CompareTo(other.right);
-            }
-
-            public override string ToString()
-            {
-                return $"[{left}, {right}]";
+                Console.Write($"{point} ");
             }
         }      
     }
